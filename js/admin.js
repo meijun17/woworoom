@@ -1,5 +1,8 @@
 const orderListTable = document.querySelector(".orderTableBody");
 const discardAllBtn = document.querySelector(".discardAllBtn");
+const categoryBtn = document.querySelector(".category-btn");
+const productBtn = document.querySelector(".product-btn");
+const sectionTitle = document.querySelector(".section-title");
 let ordersList = [];
 
 function ordersDetailTemplate() {
@@ -97,14 +100,28 @@ function ordersHandler(e) {
   }
 }
 
-function renderC3() {
+function renderC3(val) {
   let obj = {};
   ordersList.forEach((item) => {
     item.products.forEach((product) => {
-      if (obj[product.title] === undefined) {
-        obj[product.title] = product.price * product.quantity;
+      if (val === "category") {
+        if (obj[product.category] === undefined) {
+          obj[product.category] = product.price * product.quantity;
+        } else {
+          obj[product.category] += product.price * product.quantity;
+        }
+        sectionTitle.textContent = "全產品類別營收比重";
+        categoryBtn.classList.add("active");
+        productBtn.classList.remove("active");
       } else {
-        obj[product.title] += product.price * product.quantity;
+        if (obj[product.title] === undefined) {
+          obj[product.title] = product.price * product.quantity;
+        } else {
+          obj[product.title] += product.price * product.quantity;
+        }
+        sectionTitle.textContent = "全品項營收比重";
+        categoryBtn.classList.remove("active");
+        productBtn.classList.add("active");
       }
     });
   });
@@ -152,7 +169,7 @@ function getOrderList() {
     .then((res) => {
       ordersList = res.data.orders;
       ordersDetailTemplate();
-      renderC3();
+      renderC3("category");
     })
     .catch((err) => {
       console.log(err);
@@ -183,3 +200,6 @@ init();
 
 orderListTable.addEventListener("click", ordersHandler);
 discardAllBtn.addEventListener("click", clearAllOrders);
+
+categoryBtn.addEventListener("click", renderC3.bind(null, "category"));
+productBtn.addEventListener("click", renderC3.bind(null, "product"));

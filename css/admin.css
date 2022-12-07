@@ -905,3 +905,26 @@ body {
   display: none;
 }
 /*# sourceMappingURL=all.css.map */
+
+.chart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.toggle-chart-btn {
+  background: #ffffff;
+  color: #6a33ff;
+  border: 1px solid #6a33ff;
+  font-size: 18px;
+  padding: 10px;
+  width: 250px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.toggle-chart-btn.active {
+  background: #6a33ff;
+  color: #ffffff;
+}
